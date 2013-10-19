@@ -117,7 +117,7 @@ function analyzeFile($file_) {
 	else
 	{
 ?>
-		<form enctype="multipart/form-data" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
+		<form class="small button" enctype="multipart/form-data" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
 			<p>
 				<input type="file" name="bytes" />
 				<input type="hidden" name="form_submitted" value="true" />
@@ -125,6 +125,8 @@ function analyzeFile($file_) {
 				<input type="submit" name="submit" value="upload .wav or .mp3" />
 			</p>
 		</form>
+		<div class="progress" style="width: 50%"><span class="meter"></span></div>
+
 <?
 	}
 ?>
