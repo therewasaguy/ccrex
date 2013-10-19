@@ -51,10 +51,16 @@ function analyzeFile($file_, $key_) {
 	</head>
 
 	<body>
-
+	<!-- Introduction -->
+	<div class="row">
+		<div class="large-12 columns">
+			<h1>CCRex</h1>
+			<h3>Find CC song recommendations that closely match any song you upload!</h3>
+			<hr />
+	</div>
 
 <!-- FILE UPLOAD STUFF -->
-	<h2> Welcome to CCRex! Upload your sound for analysis:</h2>
+	
 	<?PHP
 	ini_set('display_errors', true);
 	ini_set('display_startup_errors', true);
@@ -135,15 +141,15 @@ function analyzeFile($file_, $key_) {
 ?>
 		
 	<div class="large-12 columns">
-			<h3>Upload Your Song</h3>
+			<h3>Upload Your Song For Analysis</h3>
 
 		<div class="large-3 columns">	
-		<form class="small button" enctype="multipart/form-data" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
+		<form enctype="multipart/form-data" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
 			<p>
 				<input class="small button" type="file" name="bytes" />
 				<input type="hidden" name="form_submitted" value="true" />
 				<br />
-				<input type="submit" name="submit" value="upload .wav or .mp3" />
+				<input class="small button" type="submit" name="submit" value="upload .wav or .mp3" />
 			</p>
 		</form>
 		</div>	
@@ -153,6 +159,9 @@ function analyzeFile($file_, $key_) {
 <?
 	}
 ?>
+
+
+
 
 </body>
 </html>
