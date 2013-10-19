@@ -15,7 +15,18 @@ $current_file = $files_list[0];
 //curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
 
 function analyzeFile($file_) {
-	//
+
+	//find file type by dissecting the string
+	$file_type_ = substr($file_,strlen($file_)-3,3);  //extract original extension
+
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_URL, "http://developer.echonest.com/api/v4/track/upload");
+	curl_setopt($curl, CURLOPT_POST, 1);
+	curl_setopt($curl, CURLOPT_POSTFIELDS, array(
+	  'filetype' => $file_type_,
+	  'api_key' => $echokey,
+	  'track' => $file_
+	));
 }
 
 
