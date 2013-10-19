@@ -13,6 +13,7 @@ $current_file = $files_list[0];
 $arr = array();
 $fma_song_list = array();
 $fma_track_ids = array();
+$echo_track_id = SOJUJTO1393BE3380A;
 
 //if a file is uploaded, send it to Echo Nest for analysis
 //curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
@@ -25,6 +26,7 @@ function analyzeFile($file_, $key_) {
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, "http://developer.echonest.com/api/v4/track/upload");
 	curl_setopt($curl, CURLOPT_POST, 1);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($curl, CURLOPT_POSTFIELDS,array(
 	  'filetype' => $file_type_,
 	  'api_key' => $key_,
@@ -32,20 +34,37 @@ function analyzeFile($file_, $key_) {
 	  'track' => '@'.$file_
 	));
 	$return_data = curl_exec($curl);
+	curl_close($curl);
 	//remove padding 
 	$return_data=utf8_encode($return_data);
 	$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 
     //var_dump($return_data);
     $data = json_decode($return_data);
-    //print_r($data);
-    $tid = var_dump($data{'response'}{'track'}{'id'});
+//   print_r($data);
+   $tid = $data->track->id;
   
 
-//	$tid = var_dump($return_data["response"]["track"]["id"])."&bucket=audio_summary";
+
+   if($tid !== null) {   //AJAX query to see if it's no longer returning "pending"
+	//$tid = var_dump($return_data["response"]["track"]["id"])."&bucket=audio_summary";
 	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid."&bucket=audio_summary";    //$tid;
 	echo($apiURL);
+	$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $apiURL);
+		//curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	$return_data = curl_exec($curl);
+	curl_close($curl);
+	//remove padding 
+	$return_data=utf8_encode($return_data);
+	$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 
+	$data = json_decode($return_data);
+	//$echo_track_id = $data->
+	//print_r($data);
+	}
+}
 /**	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=100&type=song-radio&bucket=id:fma&limit=true&bucket=tracks"
 	$curl = curl_init();
                curl_setopt($curl, CURLOPT_URL, $apiURL);
@@ -69,13 +88,12 @@ function analyzeFile($file_, $key_) {
 
 //seeding a playlist with variables:
 //http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=100&type=song-radio&bucket=id:fma&limit=true&bucket=tracks
-            
-}
 
 
 //take the uploaded song_id and make an array of FMA song ID's
-	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=10&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
+	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=".$echokey."&song_id=".$echo_track_id."&format=json&results=10&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
 	$curl = curl_init();
+				echo("hi");
                curl_setopt($curl, CURLOPT_URL, $apiURL);
                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                //curl_setopt($curl, CURLOPT_HEADER, true);
@@ -87,7 +105,7 @@ function analyzeFile($file_, $key_) {
 				// now, process the JSON string 
                $data = json_decode($return_data, true);
                
-   foreach($data["songs"] as $item){ 
+   foreach($data->songs as $item){ 
    		$fma_exp = $item["tracks"][0]['foreign_id'];
 
    		//trim "fma:track" out of the string so we just have the track id numbers
@@ -117,7 +135,7 @@ foreach($fma_track_ids as $fma_query) {
 	$track_download_url = $data['track_url']."/download";
 	$license_url = $data['license_url'];
 	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
-}
+	}
 
 
 ?>
@@ -324,9 +342,11 @@ To play the media you will need to either update your browser to a recent versio
 		 		
 							<!--return the song list-->
 						<?PHP
+							if ($fma_song_list !== null ) {
 							foreach($fma_song_list as $ccrex_song) {
 								echo($ccrex_song);
 								}
+							}
 						?>
 		 			</div>
 	 			</li>
