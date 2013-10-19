@@ -22,15 +22,20 @@ function analyzeFile($file_, $key_) {
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, "http://developer.echonest.com/api/v4/track/upload");
 	curl_setopt($curl, CURLOPT_POST, 1);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, array(
+	curl_setopt($curl, CURLOPT_POSTFIELDS, "api_key=".$key_."&url=".$file_);
+
+		/**array(
 	  'filetype' => $file_type_,
 	  'api_key' => $key_,
-	  'track' => $file_
+	  'track' => '@'.$file_
 	));
+
+	  **/
 	$return_data = curl_exec($curl);
-    var_dump($return_data);
+    //var_dump($return_data);
     $data = json_decode($return_data);
-    print_r($data);
+    //echo($file_);
+	print_r($data);
 }
 
 
@@ -71,8 +76,10 @@ function analyzeFile($file_, $key_) {
 								"audio/vnd.wave"=>"wav",
 								"audio/mp3"=>"mp3",
 								"audio/mpeg"=>"mp3",
-								"audio/wav"=>"wav"
+								"audio/wav"=>"wav",
 								"video/mpeg"=>"mpg",
+								"audio/mp4"=> 'mp4',
+								"audio/x-m4a"=> 'm4a'
 								);
 
 	// Make sure form was submitted
