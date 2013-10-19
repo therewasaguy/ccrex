@@ -19,7 +19,7 @@ $echo_track_id = SOJUJTO1393BE3380A;
 //curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
 
 function analyzeFile($file_, $key_) {
-
+	global $tempo, $mode, $artist;
 	//find file type by dissecting the string
 	$file_type_ = substr($file_,strlen($file_)-3,3);  //extract original extension
 
@@ -101,7 +101,9 @@ function analyzeFile($file_, $key_) {
 
 
 function makeFMAid($echo_track_id) {
-	global $echokey, $fma_track_ids;
+	global $echokey, $fma_track_ids, $tempo, $mode, $artist;
+	$max_tempo = $tempo + 10;
+	$min_tempo = $tempo - 10;
 //take the uploaded song_id and make an array of FMA song ID's
 	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=".$echokey."&song_id=".$echo_track_id."&format=json&results=10&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
 	$curl = curl_init();
@@ -131,7 +133,7 @@ function makeFMAid($echo_track_id) {
 }
 
 function generatePlaylist() {
-	global $fma_track_ids,$fmakey, $fma_song_list;
+	global $fma_track_ids,$fmakey, $fma_song_list, $tempo, $mode, $artist;
 //loop thru FMAtrackIDs array, send each to the FMA API to gather $fma_song_list array of song elements displayed in a nice format... 
 foreach($fma_track_ids as $fma_query) {
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
@@ -149,17 +151,22 @@ foreach($fma_track_ids as $fma_query) {
     $artist_name = $data['artist_name'];
 	$track_title = $data['track_title'];
 	$artist_url = $data['artist_url'];
-	$license_image_file = $data['license_image_file'];
+	if (strlen($data['license_image_file'])<5){
+		$license_image_file = 'http://blogfiles.wfmu.org/JI/FMAlogo_web_297x124_orange.jpg';
+	} else {
+		$license_image_file = $data['license_image_file'];
+	}
 	$track_download_url = $data['track_url']."/download";
 	$license_url = $data['license_url'];
-
+	
 
 //	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
 //	}
 
-	array_push($fma_song_list, "<div class='song panel jp-play'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>   <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span><a class='small button' href='".$track_download_url."'>Download</a></span><audio id='jp_audio_0'><source src='".$track_download_url."' type='audio/mpeg'></audio></div>");
+	array_push($fma_song_list, "<div class='song panel jp-play'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>   <span class='license'><a href='".$license_url."'><img width=88px height=31px src='".$license_image_file."' ></span>     <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio></div>");
 	}
 }
+
 ?>
 
 <html>
@@ -171,13 +178,28 @@ foreach($fma_track_ids as $fma_query) {
   
   <link rel="stylesheet" href="css/foundation.css">
 	<link rel="stylesheet" type="text/css" href="css/jplayer.blue.monday.css" />
-  
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
 
   <script src="js/vendor/custom.modernizr.js"></script>
   <script src="js/jquery.jplayer.min.js"></script>
   <script src="js/jquery.jplayer.inspector.js"></script>
    <script src="js/jplayer.playlist.min.js"></script>
   <script src="js/popcorn.jplayer.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#jquery_jplayer_1").jPlayer({
+        ready: function () {
+          $(this).jPlayer("setMedia", {
+            mp3: 
+          });
+        },
+        swfPath: "/js",
+        supplied: "mp3, m4a, oga"
+      });
+    });
+  </script>
 
 	</head>
 
@@ -186,7 +208,7 @@ foreach($fma_track_ids as $fma_query) {
 	<div class="row">
 		<div class="large-12 columns">
 			<img id="ccrex" src="img/ccrex_fetch_sm.png" width=170px>
-			<h1>CCRex</h1>
+			<a href="index.php"><h1>CCRex</h1></a>
 			<h3>Upload a song, we'll fetch Creative Commons music to match.</h3>
 			<h4>Powered by Free Music Archive and The Echo Nest</h4>
 			<hr />
@@ -289,7 +311,8 @@ foreach($fma_track_ids as $fma_query) {
 			</p>
 		</div>	
 		<div>
-		  <label>
+
+<!--		  <label>
     <input type="checkbox" name="commercial" id="commercialcheckbox">
     <span class="custom checkbox"> Do you want to use this song commercially?</span>
   </label>
@@ -297,6 +320,7 @@ foreach($fma_track_ids as $fma_query) {
     <span class="custom checkbox"> Will you remix the song or use it in a video?</span>
   </label>
 	</div>
+-->
 </form>
 
 
@@ -326,8 +350,8 @@ if (isset($_POST['form_submitted'])) {
                 </li>
                 <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
                 </li>
-                 <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
-                </li>
+                <!-- <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+                </li>-->
                 <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
                 </li> 
                 <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
@@ -343,8 +367,8 @@ if (isset($_POST['form_submitted'])) {
             <div class="jp-volume-bar">
                 <div class="jp-volume-bar-value"></div>
             </div>
-            <div class="jp-current-time"></div>
-            <div class="jp-duration"></div>
+            <!--<div class="jp-current-time"></div>
+            <div class="jp-duration"></div>-->
         </div>
         <div class="jp-title">
             <ul>
@@ -383,18 +407,17 @@ To play the media you will need to either update your browser to a recent versio
 
 
 
-
 <script type="text/javascript">
  $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
    ready: function () {
     $(this).jPlayer("setMedia", {
-     m4a: "/media/mysound.mp4",
+     mp3: "/media/mysound.mp4",
      oga: "/media/mysound.ogg"
     });
    },
    swfPath: "/js",
-   supplied: "m4a, oga"
+   supplied: "m4a, oga,mp3"
   });
  });
 </script>

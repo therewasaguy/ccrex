@@ -1395,9 +1395,9 @@ button, .button {
     padding-left: 2em;
     font-size: 1.25em; }
   button.small, .button.small {
-    padding-top: 0.5625em;
+    padding-top: 0.175em;
     padding-right: 1.125em;
-    padding-bottom: 0.625em;
+    padding-bottom: 0.25em;
     padding-left: 1.125em;
     font-size: 0.8125em; }
   button.tiny, .button.tiny {
@@ -1482,8 +1482,8 @@ button, .button {
     padding-bottom: 0.4375em;
     -webkit-appearance: none; }
   button.small, .button.small {
-    padding-top: 0.625em;
-    padding-bottom: 0.5625em;
+    padding-top: 0.175em;
+    padding-bottom: 0.25em;
     -webkit-appearance: none; }
   button.large, .button.large {
     padding-top: 1.03125em;
