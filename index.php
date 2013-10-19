@@ -1,4 +1,35 @@
 
+<?PHP
+
+$echokey = 'MROQS3CCSCKZERMNL';
+$fmakey = 'FWYXBWBNHU1EZW2C';
+
+$dir    = 'tempaudio';
+$ssh_dir = '/home/jasonsigal/jasonsigal.cc/ccrex/tempaudio';
+$files_list = scandir($dir);
+
+$current_file = $files_list[0];
+
+
+//if a file is uploaded, send it to Echo Nest for analysis
+//curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
+
+function analyzeFile($file_) {
+	//
+}
+
+
+?>
+
+
+<html>
+	<head>
+
+	</head>
+
+	<body>
+
+
 <!-- FILE UPLOAD STUFF -->
 	<h2> Welcome to CCRex! Upload your sound for analysis:</h2>
 	<?PHP
@@ -37,10 +68,10 @@
 				$uploadfilename = /**time() . "_" . rand(1000,9999) . "_" . **/basename($_FILES['bytes']['name']);
 				
 				// Make sure apache can write to this folder
-				$uploaddir = '/home/jasonsigal/itp.jasonsigal.cc/clweb/ezedit/audio';
+				$uploaddir = '/home/jasonsigal/jasonsigal.cc/ccrex/tempaudio';
 				$uploadfile = $uploaddir ."/". $uploadfilename;
 
-				$uploadrelativefile = 'http://itp.jasonsigal.cc/clweb/ezedit/audio/' . $uploadfilename;
+				$uploadrelativefile = 'http://jasonsigal.cc/ccrex/tempaudio/' . $uploadfilename;
 		
 				if (move_uploaded_file($_FILES['bytes']['tmp_name'], $uploadfile))
 				{
@@ -50,9 +81,11 @@
 					// Tell the user
 					$current_file = $uploadfilename;
 					$files_list = scandir($dir);
-					$files_list = resetFiles($files_list);					
+				
 					echo "<p><span class=\"highlight\">Success!! <a href=\"" . $uploadrelativefile  . "\">" . $current_file . "</a> is the current file.</span></p>";
-					
+
+					//send to Echo Nest for analysis...
+					analyzeFile($current_file);
 
 				}
 				else
@@ -87,3 +120,6 @@
 <?
 	}
 ?>
+
+</body>
+</html>
