@@ -44,7 +44,10 @@ function analyzeFile($file_, $key_) {
 //   print_r($data);
    $tid = $data->track->id;
   
-
+ 	if($data->track->status == "pending") {
+ 		echo("Please wait while The Echo Nest analyzes your file");
+ 		analyzeFile($file_, $key_);
+ 	} else
 
    if($tid !== null) {   //AJAX query to see if it's no longer returning "pending"
 	//$tid = var_dump($return_data["response"]["track"]["id"])."&bucket=audio_summary";
@@ -61,7 +64,7 @@ function analyzeFile($file_, $key_) {
 	$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 
 	$data = json_decode($return_data);
-	print_r($data);
+	//print_r($data);
 	$echo_track_id = $data->track->song_id;
 	$artist = $data->track->artist;
 	$tempo= $data->track->audio_summary->tempo;
