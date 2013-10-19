@@ -128,15 +128,22 @@ function analyzeFile($file_) {
 	else
 	{
 ?>
+		
+	<div class="large-12 columns">
+			<h3>Upload Your Song</h3>
+
+		<div class="large-3 columns">	
 		<form class="small button" enctype="multipart/form-data" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
 			<p>
-				<input type="file" name="bytes" />
+				<input class="small button" type="file" name="bytes" />
 				<input type="hidden" name="form_submitted" value="true" />
 				<br />
 				<input type="submit" name="submit" value="upload .wav or .mp3" />
 			</p>
 		</form>
+		</div>	
 		<div class="progress" style="width: 50%"><span class="meter"></span></div>
+	</div>
 
 <?
 	}
