@@ -1,9 +1,4 @@
 
-<?PHP
-
-
-?>
-
 <!-- FILE UPLOAD STUFF -->
 	<h2> Welcome to CCRex! Upload your sound for analysis:</h2>
 	<?PHP
@@ -42,10 +37,10 @@
 				$uploadfilename = /**time() . "_" . rand(1000,9999) . "_" . **/basename($_FILES['bytes']['name']);
 				
 				// Make sure apache can write to this folder
-				$uploaddir = 'home/jasonsigal/jasonsigal.cc/ccrex/tempaudio';
+				$uploaddir = '/home/jasonsigal/itp.jasonsigal.cc/clweb/ezedit/audio';
 				$uploadfile = $uploaddir ."/". $uploadfilename;
 
-				$uploadrelativefile = 'http://jasonsigal.cc/ccrex/tempaudio/' . $uploadfilename;
+				$uploadrelativefile = 'http://itp.jasonsigal.cc/clweb/ezedit/audio/' . $uploadfilename;
 		
 				if (move_uploaded_file($_FILES['bytes']['tmp_name'], $uploadfile))
 				{
