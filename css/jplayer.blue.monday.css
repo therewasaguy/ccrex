@@ -194,8 +194,8 @@ div.jp-audio div.jp-progress {
 	height:15px;
 }
 div.jp-audio div.jp-type-single div.jp-progress {
-	left:110px;
-	width:186px;
+	left:180px;
+	width:206px;
 }
 div.jp-audio div.jp-type-playlist div.jp-progress {
 	left:166px;
@@ -292,13 +292,13 @@ div.jp-volume-bar {
 	position: absolute;
 	overflow:hidden;
 	background: url("jplayer.blue.monday.jpg") 0 -250px repeat-x;
-	width:46px;
-	height:5px;
+	width:86px;
+	height:15px;
 	cursor: pointer;
 }
 div.jp-audio div.jp-volume-bar {
 	top:37px;
-	left:330px;
+	left:410px;
 }
 div.jp-video div.jp-volume-bar {
 	top:17px;
