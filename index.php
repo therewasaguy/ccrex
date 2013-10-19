@@ -109,6 +109,8 @@ function analyzeFile($file_, $key_) {
   
 
   <script src="js/vendor/custom.modernizr.js"></script>
+  <script src="js/jquery.jplayer.min.js"></script>
+  <script src="js/jquery.jplayer.inspector.js"></script>
 	</head>
 
 	<body>
@@ -241,23 +243,28 @@ function analyzeFile($file_, $key_) {
  		<div class="large-12 columns">
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
+<!-- jPlayer -->
+ 			<div id="jquery_jplayer_1"></div>
+<div id="jp_container_1">
+ <a href="#" class="jp-play">Play</a>
+ <a href="#" class="jp-pause">Pause</a>
+</div>
+<!-- list -->
  			<ul id="playlist">
  				<li class="item">
-		 			<div class="large-2 columns panel">
-		 					<img src="#">
-		 			</div>
-		 			<div class="large-9 columns panel">
+
+		 			<div class="large-12 columns panel">
+		 				<img src="http://cdn.7static.com/static/img/sleeveart/00/010/119/0001011998_200.jpg">
 		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
 						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
-						<a href="#">Song URL<?php echo $_GET['link']; ?></a>
-						<a href="#">Download URL</a></p>]
+						<a href="http://previews.7digital.com/clips/34/11123262.clip.mp3">Song URL<?php echo $_GET['link']; ?></a>
+						<a href="#">Download</a></p>]
 		 			</div>
 	 			</li>
 	 				<li class="item">
-		 			<div class="large-2 columns panel">
-		 					<img src="#">
-		 			</div>
-		 			<div class="large-9 columns panel">
+		 		
+		 			<div class="large-12 columns panel">
+		 				<img src="#">
 		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
 						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
 						<a href="#">Song URL<?php echo $_GET['link']; ?></a>
@@ -273,6 +280,19 @@ function analyzeFile($file_, $key_) {
 
 
 
-
+<script type="text/javascript">
+ $(document).ready(function(){
+  $("#jquery_jplayer_1").jPlayer({
+   ready: function () {
+    $(this).jPlayer("setMedia", {
+     m4a: "/media/mysound.mp4",
+     oga: "/media/mysound.ogg"
+    });
+   },
+   swfPath: "/js",
+   supplied: "m4a, oga"
+  });
+ });
+</script>
 </body>
 </html>
