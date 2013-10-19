@@ -118,6 +118,10 @@ foreach($arr as $fma_query) {
 				// now, process the JSON string 
                $data = json_decode($return_data, true);
                print_r($data);
+    $artist_name = $data->list[0]->main->temp_min;
+	$track_title = $data->list[0]->main->temp_max;
+	$track_download_url = $data->list[0]->main->temp;
+	echo($artist_name." - ".$track_title." - ".$track_download_url);
 }
 
 ?>
