@@ -61,7 +61,13 @@ function analyzeFile($file_, $key_) {
 	$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 
 	$data = json_decode($return_data);
-	//$echo_track_id = $data->
+	print_r($data);
+	$echo_track_id = $data->track->song_id;
+	$artist = $data->track->artist;
+	$tempo= $data->track->audio_summary->tempo;
+	$mode= $data->track->audio_summary->mode;
+	echo("this song is by ".$artist." and its tempo is ".$tempo);
+	makeFMAid($echo_track_id);
 	//print_r($data);
 	}
 }
@@ -90,6 +96,8 @@ function analyzeFile($file_, $key_) {
 //http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=100&type=song-radio&bucket=id:fma&limit=true&bucket=tracks
 
 
+function makeFMAid($echo_track_id) {
+	global $echokey, $fma_track_ids;
 //take the uploaded song_id and make an array of FMA song ID's
 	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=".$echokey."&song_id=".$echo_track_id."&format=json&results=10&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
 	$curl = curl_init();
@@ -105,15 +113,22 @@ function analyzeFile($file_, $key_) {
 				// now, process the JSON string 
                $data = json_decode($return_data, true);
                
-   foreach($data->songs as $item){ 
+   if (is_array($data)){
+   foreach($data['songs'] as $item){ 
    		$fma_exp = $item["tracks"][0]['foreign_id'];
 
    		//trim "fma:track" out of the string so we just have the track id numbers
    		$fma_explode = ltrim($fma_exp,"fma:track:");	
 		//add track id numbers to fma_track_ids array
    		array_push($fma_track_ids,$fma_explode);
+		}
+	
 	}
+	generatePlaylist();
+}
 
+function generatePlaylist() {
+	global $fma_track_ids,$fmakey, $fma_song_list;
 //loop thru FMAtrackIDs array, send each to the FMA API to gather $fma_song_list array of song elements displayed in a nice format... 
 foreach($fma_track_ids as $fma_query) {
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
@@ -134,15 +149,13 @@ foreach($fma_track_ids as $fma_query) {
 	$license_image_file = $data['license_image_file'];
 	$track_download_url = $data['track_url']."/download";
 	$license_url = $data['license_url'];
-<<<<<<< HEAD
-	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
-	}
-=======
+
+//	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
+//	}
+
 	array_push($fma_song_list, "<div class='song panel jp-play'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
+	}
 }
->>>>>>> 1007ea7bf709c16103571e28d544fb8cc909d3d7
-
-
 ?>
 
 <html>
