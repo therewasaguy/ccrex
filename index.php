@@ -162,10 +162,41 @@ function analyzeFile($file_, $key_) {
 		</div>	
 		<div class="progress" style="width: 50%"><span class="meter"></span></div>
 	</div>
+		<div>
+	<form class="custom">
+  <label for="checkbox1">
+    <input type="checkbox" id="commercialcheckbox" style="display: none;">
+    <span class="custom checkbox"></span> Do you want to use this song commercially?
+  </label>
+    <input type="checkbox" id="remixcheckbox" style="display: none;">
+    <span class="custom checkbox"></span> Will you remix the song or use it in a video?
+  </label>
+</form>
+</div>
+
 
 <?
 	}
 ?>
+
+<!-- Results -->
+
+<div class="row">
+ 		<div class="large-12 columns">
+ 			<h3>Similar songs</h3>
+ 			<div class="large-2 columns panel">
+ 					<img src="#">
+ 			</div>
+ 			<div class="large-9 columns panel">
+		[		<p>Artist - Song name - License<br>
+				<a href="#">Song URL</a><br>
+				<a href="#">Download URL</a></p>]
+ 			</div>
+ 		</div>
+ </div>
+
+
+
 
 
 

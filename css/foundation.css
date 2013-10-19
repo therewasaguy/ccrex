@@ -22,7 +22,16 @@ body {
   font-size: 100%; }
 
 body {
-  background: white;
+    /* background generated with colorzilla */
+  background: #cb60b3; /* Old browsers */
+background: -moz-linear-gradient(top, #cb60b3 0%, #ad1283 50%, #de47ac 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cb60b3), color-stop(50%,#ad1283), color-stop(100%,#de47ac)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #cb60b3 0%,#ad1283 50%,#de47ac 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #cb60b3 0%,#ad1283 50%,#de47ac 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #cb60b3 0%,#ad1283 50%,#de47ac 100%); /* IE10+ */
+background: linear-gradient(to bottom, #cb60b3 0%,#ad1283 50%,#de47ac 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cb60b3', endColorstr='#de47ac',GradientType=0 ); /* IE6-9 */
+/* end of background code */
   color: #3a3a3a;
   padding: 0;
   margin: 0;
