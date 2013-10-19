@@ -24,7 +24,7 @@ body {
 body {
     /* background generated with colorzilla */
   background: #cb60b3; /* Old browsers */
-  background-image:url(..img/ccrex_fetch_sm.png);
+  background-image:url('..img/ccrex_fetch_sm.png');
   background-repeat:no-repeat;
   background-position:right top;
 background: -moz-linear-gradient(top, #cb60b3 0%, #ad1283 50%, #de47ac 100%); /* FF3.6+ */

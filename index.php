@@ -45,8 +45,8 @@ function analyzeFile($file_, $key_) {
    $tid = $data->track->id;
   
  	if($data->track->status == "pending") {
- 		echo("Please wait while The Echo Nest analyzes your file");
- 		analyzeFile($file_, $key_);
+ 		echo("Please wait while The Echo Nest analyzes your file (reload page)");
+ 		//analyzeFile($file_, $key_);
  	} else
 
    if($tid !== null) {   //AJAX query to see if it's no longer returning "pending"
@@ -186,7 +186,8 @@ foreach($fma_track_ids as $fma_query) {
 	<div class="row">
 		<div class="large-12 columns">
 			<h1>CCRex</h1>
-			<h3>Find CC song recommendations that closely match any song you upload!</h3>
+			<h3>Upload a song, we'll fetch Creative Commons music to match.</h3>
+			<h4>Powered by Free Music Archive and The Echo Nest</h4>
 			<hr />
 	</div>
 
