@@ -259,11 +259,48 @@ foreach($fma_track_id_array as $fma_query) {
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
 <!-- jPlayer -->
- 			<div id="jquery_jplayer_1"></div>
-<div id="jp_container_1">
- <a href="#" class="jp-play">Play</a>
- <a href="#" class="jp-pause">Pause</a>
+<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div id="jp_container_1" class="jp-audio">
+    <div class="jp-type-single">
+        <div class="jp-gui jp-interface">
+            <ul class="jp-controls">
+                <!-- comment out any of the following <li>s to remove these buttons -->
+                <li><a href="javascript:;" class="jp-play" tabindex="1">play</a>
+                </li>
+                <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
+                </li>
+                <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
+                </li>
+                <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+                </li>
+                <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
+                </li>
+                <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
+                </li>
+            </ul>
+            <!-- you can comment out any of the following <div>s too -->
+            <div class="jp-progress">
+                <div class="jp-seek-bar">
+                    <div class="jp-play-bar"></div>
+                </div>
+            </div>
+            <div class="jp-volume-bar">
+                <div class="jp-volume-bar-value"></div>
+            </div>
+            <div class="jp-current-time"></div>
+            <div class="jp-duration"></div>
+        </div>
+        <div class="jp-title">
+            <ul>
+                <li>Cro Magnon Man</li>
+            </ul>
+        </div>
+        <div class="jp-no-solution"> <span>Update Required</span>
+To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.</div>
+    </div>
 </div>
+
+
 <!-- list -->
  			<ul id="playlist">
  				<li class="item">
