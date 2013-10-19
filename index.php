@@ -116,7 +116,7 @@ foreach($fma_track_ids as $fma_query) {
 	$license_image_file = $data['license_image_file'];
 	$track_download_url = $data['track_url']."/download";
 	$license_url = $data['license_url'];
-	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
+	array_push($fma_song_list, "<div class='song panel'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
 }
 
 
@@ -319,8 +319,6 @@ To play the media you will need to either update your browser to a recent versio
 <!-- list -->
  			<ul id="playlist">
  				<li class="item">
-
-		 			<div class="large-12 columns panel">
 		 		
 							<!--return the song list-->
 						<?PHP
@@ -328,7 +326,6 @@ To play the media you will need to either update your browser to a recent versio
 								echo($ccrex_song);
 								}
 						?>
-		 			</div>
 	 			</li>
 	 				
 	 		</ul>	
