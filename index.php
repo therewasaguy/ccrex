@@ -14,7 +14,7 @@ $current_file = $files_list[0];
 //if a file is uploaded, send it to Echo Nest for analysis
 //curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
 
-function analyzeFile($file_) {
+function analyzeFile($file_, $key_) {
 
 	//find file type by dissecting the string
 	$file_type_ = substr($file_,strlen($file_)-3,3);  //extract original extension
@@ -24,9 +24,13 @@ function analyzeFile($file_) {
 	curl_setopt($curl, CURLOPT_POST, 1);
 	curl_setopt($curl, CURLOPT_POSTFIELDS, array(
 	  'filetype' => $file_type_,
-	  'api_key' => $echokey,
+	  'api_key' => $key_,
 	  'track' => $file_
 	));
+	$return_data = curl_exec($curl);
+    var_dump($return_data);
+    $data = json_decode($return_data);
+    print_r($data);
 }
 
 
@@ -62,6 +66,7 @@ function analyzeFile($file_) {
 								"audio/mp3"=>"mp3",
 								"audio/mpeg"=>"mp3",
 								"audio/wav"=>"wav"
+								"video/mpeg"=>"mpg",
 								);
 
 	// Make sure form was submitted
@@ -104,7 +109,7 @@ function analyzeFile($file_) {
 					echo "<p><span class=\"highlight\">Success!! <a href=\"" . $uploadrelativefile  . "\">" . $current_file . "</a> is the current file.</span></p>";
 
 					//send to Echo Nest for analysis...
-					analyzeFile($current_file);
+					analyzeFile($current_file,$echokey);
 
 				}
 				else
