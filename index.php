@@ -102,12 +102,24 @@ function analyzeFile($file_, $key_) {
 		list($key,$value) = explode('fma:track:',$pair);
 		$arr[$key]=str_replace("\"","",$value);
 	}
-	var_dump($arr);
+	//var_dump($arr);
 
 foreach($arr as $fma_query) {
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
-	var_dump($fma_apiURL);
+	$curl = curl_init();
+               curl_setopt($curl, CURLOPT_URL, $fma_apiURL);
+               curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+               //curl_setopt($curl, CURLOPT_HEADER, true);
+               $return_data = curl_exec($curl);
+               //var_dump($return_data);
+               //remove padding 
+				$return_data=utf8_encode($return_data);
+				$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
+				// now, process the JSON string 
+               $data = json_decode($return_data, true);
+               print_r($data);
 }
+
 ?>
 
 <html>
