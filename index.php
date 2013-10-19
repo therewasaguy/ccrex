@@ -11,7 +11,8 @@ $files_list = scandir($dir);
 $current_file = $files_list[0];
 
 $arr = array();
-$arrfma = array();
+$fma_song_list = array();
+$fma_track_ids = array();
 
 //if a file is uploaded, send it to Echo Nest for analysis
 //curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
@@ -30,22 +31,19 @@ function analyzeFile($file_, $key_) {
 	  'format'=> 'json',
 	  'track' => '@'.$file_
 	));
-//	curl_setopt($curl, CURLOPT_POSTFIELDS, "api_key=".$key_."&url=".$file_);
-
-		/**array(
-	  'filetype' => $file_type_,
-	  'api_key' => $key_,
-	  'track' => '@'.$file_
-	));
-
-	  **/
 	$return_data = curl_exec($curl);
-    var_dump($return_data);
-    $data = json_decode($return_data, true);
+	//remove padding 
+	$return_data=utf8_encode($return_data);
+	$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
+
+    //var_dump($return_data);
+    $data = json_decode($return_data);
+    //print_r($data);
+    $tid = var_dump($data{'response'}{'track'}{'id'});
   
 
-	$tid = var_dump($data["response"]["track"]["id"])."&bucket=audio_summary";
-	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid;
+//	$tid = var_dump($return_data["response"]["track"]["id"])."&bucket=audio_summary";
+	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid."&bucket=audio_summary";    //$tid;
 	echo($apiURL);
 
 /**	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=100&type=song-radio&bucket=id:fma&limit=true&bucket=tracks"
@@ -90,59 +88,37 @@ function analyzeFile($file_, $key_) {
                $data = json_decode($return_data, true);
                
    foreach($data["songs"] as $item){ 
-   		$fma_explode = $item["tracks"][0]['foreign_id'];
-   		$fma_track_ids = explode("fma:track:",$fma_explode);
-   		//json_decode($fma_track_ids);
-   		//print_r($fma_track_ids);
-   		//var_dump($fma_track_ids);
-   		//var_dump($fma_track_id[0]['foreign_id']);
+   		$fma_exp = $item["tracks"][0]['foreign_id'];
+
+   		//trim "fma:track" out of the string so we just have the track id numbers
+   		$fma_explode = ltrim($fma_exp,"fma:track:");	
+		//add track id numbers to fma_track_ids array
+   		array_push($fma_track_ids,$fma_explode);
 	}
 
-//loop thru FMA song ID array to FMA API for FMA Track Title, Artist Name, Track URL (download), Artist Image, Source URL, License, 
-//while ($start !== false &&  $start < strlen($fma_track_ids)) {
-//	$temp = explode("fma:track:",$fma_track_ids);
-//	var_dump($temp[0]);
-//	var_dump($temp[1]);
-//	foreach ($fma_track_ids as $pair) {
-//		list($key,$value) = explode('track:',$pair);
-		//$arr[$key]=str_replace("\"","",$value);
-//		$arr[] = $value;
-
-//	}
-
-	//var_dump($arr);
-
-$x = 0;
-echo(count($fma_track_ids));
-
-//for($i = 0; $i<=arraylen())
-
+//loop thru FMAtrackIDs array, send each to the FMA API to gather $fma_song_list array of song elements displayed in a nice format... 
 foreach($fma_track_ids as $fma_query) {
-//	$x = $x+10;
-//	print($x);
-//	print_r($fma_query);
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
-	//echo($fma_apiURL);
 	$curl = curl_init();
                curl_setopt($curl, CURLOPT_URL, $fma_apiURL);
                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-               //curl_setopt($curl, CURLOPT_HEADER, true);
                $return_data = curl_exec($curl);
-               //var_dump($return_data);
+
                //remove padding 
 				$return_data=utf8_encode($return_data);
 				$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 				// now, process the JSON string 
-               //print_r($return_data);
                $data = json_decode($return_data, true);
-               //print_r($data);
+    //set track variables
     $artist_name = $data['artist_name'];
 	$track_title = $data['track_title'];
+	$artist_url = $data['artist_url'];
+	$license_image_file = $data['license_image_file'];
 	$track_download_url = $data['track_url']."/download";
-	array_push($arrfma, $artist_name." - ".$track_title." - ".$track_download_url);
+	$license_url = $data['license_url'];
+	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
 }
 
-print_r($arrfma);
 
 ?>
 
@@ -267,22 +243,19 @@ print_r($arrfma);
 				<input type="hidden" name="form_submitted" value="true" />
 				<br />
 				<input class="small button" type="submit" name="submit" value="Upload Song" />
+				<div class="large-9 columns progress" style="width: 50%"><span class="meter"></span></div>
 			</p>
-		</form>
 		</div>	
-		<div class="large-9 columns progress" style="width: 50%"><span class="meter"></span></div>
-	</div>
 		<div>
-	<form class="custom">
-  <label>
-    <input type="checkbox" id="commercialcheckbox" style="display: none;">
-    <span class="custom checkbox"></span> Do you want to use this song commercially?
+		  <label>
+    <input type="checkbox" name="commercial" id="commercialcheckbox">
+    <span class="custom checkbox"> Do you want to use this song commercially?</span>
   </label>
-    <input type="checkbox" id="remixcheckbox" style="display: none;">
-    <span class="custom checkbox"></span> Will you remix the song or use it in a video?
+    <input type="checkbox" name="remix" id="remixcheckbox">
+    <span class="custom checkbox"> Will you remix the song or use it in a video?</span>
   </label>
+	</div>
 </form>
-</div>
 
 
 <?
@@ -295,29 +268,32 @@ print_r($arrfma);
  		<div class="large-12 columns">
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
-<!-- jPlayer -->
+<!-- jPlayer 
 <div  id="jquery_jplayer_1" class="jp-jplayer large-8 columns"></div>
 <div id="jp_container_1" class="jp-audio">
     <div class="jp-type-single">
         <div class="jp-gui jp-interface">
             <ul class="jp-controls">
-                <!-- comment out any of the following <li>s to remove these buttons -->
+ -->
+                <!-- comment out any of the following <li>s to remove these buttons 
                 <li><a href="javascript:;" class="jp-play" tabindex="1">play</a>
                 </li>
                 <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
                 </li>
                 <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
                 </li>
+ -->
                <!-- <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
                 </li>
                 <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
                 </li> 
                 -->
-
+<!--
                 <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
                 </li>
             </ul>
-            <!-- you can comment out any of the following <div>s too -->
+ -->
+            <!-- you can comment out any of the following <div>s too
             <div class="jp-progress">
                 <div class="jp-seek-bar">
                     <div class="jp-play-bar"></div>
@@ -338,22 +314,20 @@ print_r($arrfma);
 To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.</div>
     </div>
 </div>
-
+-->
 
 <!-- list -->
  			<ul id="playlist">
  				<li class="item">
 
 		 			<div class="large-12 columns panel">
-		 				<div class="large-3 columns">
-		 				<img src="http://cdn.7static.com/static/img/sleeveart/00/010/119/0001011998_200.jpg">
-		 				</div>
-		 				<div class="large-8 columns">
-		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
-						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
-						<a href="http://previews.7digital.com/clips/34/11123262.clip.mp3">Song URL<?php echo $_GET['link']; ?></a>
-						<a href="#" class="small button">Download</a></p>]
-						</div>
+		 		
+							<!--return the song list-->
+						<?PHP
+							foreach($fma_song_list as $ccrex_song) {
+								echo($ccrex_song);
+								}
+						?>
 		 			</div>
 	 			</li>
 	 				
