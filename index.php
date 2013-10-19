@@ -213,15 +213,30 @@ function analyzeFile($file_, $key_) {
  		<div class="large-12 columns">
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
- 			<div class="large-2 columns panel">
- 					<img src="#">
- 			</div>
- 			<div class="large-9 columns panel">
- 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
-		[		<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
-				<a href="#">Song URL<?php echo $_GET['link']; ?></a>
-				<a href="#">Download URL</a></p>]
- 			</div>
+ 			<ul id="playlist">
+ 				<li class="item">
+		 			<div class="large-2 columns panel">
+		 					<img src="#">
+		 			</div>
+		 			<div class="large-9 columns panel">
+		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
+						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
+						<a href="#">Song URL<?php echo $_GET['link']; ?></a>
+						<a href="#">Download URL</a></p>]
+		 			</div>
+	 			</li>
+	 				<li class="item">
+		 			<div class="large-2 columns panel">
+		 					<img src="#">
+		 			</div>
+		 			<div class="large-9 columns panel">
+		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
+						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
+						<a href="#">Song URL<?php echo $_GET['link']; ?></a>
+						<a href="#">Download URL</a></p>]
+		 			</div>
+	 			</li>
+	 		</ul>	
  		</div>
  </div>
 
