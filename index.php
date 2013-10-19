@@ -134,7 +134,7 @@ foreach($fma_track_ids as $fma_query) {
 	$license_image_file = $data['license_image_file'];
 	$track_download_url = $data['track_url']."/download";
 	$license_url = $data['license_url'];
-<<<<<<< HEAD
+
 	array_push($fma_song_list, "<div class='song'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
 	}
 =======
@@ -305,17 +305,14 @@ foreach($fma_track_ids as $fma_query) {
                 </li>
                 <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
                 </li>
-
-               <!-- <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+                <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
                 </li>
                 <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
                 </li> 
-                -->
-<!--
                 <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
                 </li>
             </ul>
- -->
+
             <!-- you can comment out any of the following <div>s too -->
             <div class="jp-progress">
                 <div class="jp-seek-bar">
