@@ -186,8 +186,9 @@ foreach($fma_track_ids as $fma_query) {
 	<div class="row">
 		<div class="large-12 columns">
 			<h1>CCRex</h1>
-			<h3>Find CC song recommendations that closely match any song you upload!</h3>
+			<h3>We fetch CC song recommendations that closely match any song you upload!</h3>
 			<hr />
+			<img id="ccrex" src="img/ccrex_fetch_sm.png">
 	</div>
 
 <!-- FILE UPLOAD STUFF -->
@@ -322,6 +323,12 @@ foreach($fma_track_ids as $fma_query) {
                 </li>
                 <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
                 </li>
+                 <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+-                </li>
+-                <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
+-                </li> 
+-                <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
+-                </li>
             </ul>
 
             <!-- you can comment out any of the following <div>s too -->
@@ -331,14 +338,11 @@ foreach($fma_track_ids as $fma_query) {
                 </div>
             </div>
             <div class="jp-volume-bar">
-            	<div class="jp-mute" tabindex="1" title="mute">mute></div>
                 <div class="jp-volume-bar-value"></div>
             </div>
             <div class="jp-current-time"></div>
             <div class="jp-duration"></div>
         </div>
-        <div class="jp-unmute" tabindex="1" title="unmute">unmute></div>
-        <div class="jp-volume-max" tabindex="1" title="max volume">max volume></div>
         <div class="jp-title">
             <ul>
                 <li>Cro Magnon Man</li>

@@ -51,6 +51,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cb60b3', end
   
 }
 
+#ccrex {
+  float: right;
+}
+
 a:hover {
   cursor: pointer; }
 
