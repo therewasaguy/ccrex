@@ -96,21 +96,18 @@ function analyzeFile($file_, $key_) {
 
 //use FMA song IDs to get FMA Track Title, Artist Name, Track URL (download), Artist Image, Source URL, License, 
 //while ($start !== false &&  $start < strlen($fma_track_ids)) {
+	$arr = array();
+	$temp = explode("\r\n",$fma_track_ids);
+	foreach ($temp as $pair) {
+		list($key,$value) = explode('fma:track:',$pair);
+		$arr[$key]=str_replace("\"","",$value);
+	}
+	var_dump($arr);
 
-	$fma_track_ids = print_r($fma_track_ids);
-	$fma_track_id_array = explode('fma:track_id', $fma_track_ids);
-//	$start = strpos($fma_track_ids,'fma:track:', $end) + 5;
-//	$end = strpos($fma_track_ids,'fma:track:',$start);
-//	$mydata = substr($fma_track_ids, $start, $end - $start);
-//	$fma_track_id_array[] = $mydata;
-	//var_dump(fma_track_id_array);
-	echo($fma_track-id_array);
-/*
-foreach($fma_track_id_array as $fma_query) {
+foreach($arr as $fma_query) {
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
-	//var_dump($fma_apiURL);
+	var_dump($fma_apiURL);
 }
-*/
 ?>
 
 <html>
