@@ -22,7 +22,12 @@ function analyzeFile($file_, $key_) {
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, "http://developer.echonest.com/api/v4/track/upload");
 	curl_setopt($curl, CURLOPT_POST, 1);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, "api_key=".$key_."&url=".$file_);
+	curl_setopt($curl, CURLOPT_POSTFIELDS,array(
+	  'filetype' => $file_type_,
+	  'api_key' => $key_,
+	  'track' => '@'.$file_
+	));
+//	curl_setopt($curl, CURLOPT_POSTFIELDS, "api_key=".$key_."&url=".$file_);
 
 		/**array(
 	  'filetype' => $file_type_,
@@ -35,7 +40,30 @@ function analyzeFile($file_, $key_) {
     //var_dump($return_data);
     $data = json_decode($return_data);
     //echo($file_);
-	print_r($data);
+
+	$tid = $data['track']['id']."&bucket=audio_summary";
+	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid;
+	echo($apiURL);
+/**
+	$curl = curl_init();
+               curl_setopt($curl, CURLOPT_URL, $apiURL);
+               curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+               //curl_setopt($curl, CURLOPT_HEADER, true);
+               $return_data = curl_exec($curl);
+               //var_dump($return_data);
+               $data = json_decode($return_data);
+
+               print_r($data);
+
+              $tempo= $data->response->track->audio_summary->tempo;                
+             $TS= $data->response->track->audio_summary->time_signature;
+             $acousticness = $data->response->track->audio_summary->acousticness;
+             $valence= $data->response->track->audio_summary->valence;
+
+              $acousticness = $data->response->track->audio_summary->acousticness;
+	//print_r($tid);
+	//echo($tid);
+              **/
 }
 
 
@@ -122,7 +150,7 @@ function analyzeFile($file_, $key_) {
 					echo "<p><span class=\"highlight\">Success!! <a href=\"" . $uploadrelativefile  . "\">" . $current_file . "</a> is the current file.</span></p>";
 
 					//send to Echo Nest for analysis...
-					analyzeFile($current_file,$echokey);
+					analyzeFile($ssh_dir."/".$current_file,$echokey);
 
 				}
 				else
