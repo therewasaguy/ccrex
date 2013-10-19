@@ -135,6 +135,8 @@ foreach($arr as $fma_query) {
   <script src="js/vendor/custom.modernizr.js"></script>
   <script src="js/jquery.jplayer.min.js"></script>
   <script src="js/jquery.jplayer.inspector.js"></script>
+   <script src="js/jplayer.playlist.min.js"></script>
+  <script src="js/popcorn.jplayer.js"></script>
 	</head>
 
 	<body>
@@ -268,7 +270,7 @@ foreach($arr as $fma_query) {
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
 <!-- jPlayer -->
-<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div align="center" id="jquery_jplayer_1" class="jp-jplayer"></div>
 <div id="jp_container_1" class="jp-audio">
     <div class="jp-type-single">
         <div class="jp-gui jp-interface">
