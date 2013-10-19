@@ -10,6 +10,8 @@ $files_list = scandir($dir);
 
 $current_file = $files_list[0];
 
+$arr = array();
+$arrfma = array();
 
 //if a file is uploaded, send it to Echo Nest for analysis
 //curl -X POST "http://developer.echonest.com/api/v4/track/upload" -d "api_key=MROQS3CCSCKZERMNL&url=http://example.com/audio.mp3"
@@ -73,38 +75,42 @@ function analyzeFile($file_, $key_) {
 }
 
 
-//take the uploaded song_id and make a playlist of FMA song ID's
-	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=3&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
+//take the uploaded song_id and make an array of FMA song ID's
+	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=10&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
 	$curl = curl_init();
                curl_setopt($curl, CURLOPT_URL, $apiURL);
                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                //curl_setopt($curl, CURLOPT_HEADER, true);
                $return_data = curl_exec($curl);
-               //var_dump($return_data);
+
                //remove padding 
 				$return_data=utf8_encode($return_data);
 				$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 				// now, process the JSON string 
                $data = json_decode($return_data, true);
 
-               //print_r($data);
+
    foreach($data["songs"] as $item){ 
-   		$fma_track_ids = $item["tracks"][0]['foreign_id'];
-   		//print_r($fma_track_ids);
+   		$fma_track_ids[] = explode("fma:track:",$item["tracks"][0]['foreign_id']);
+   		var_dump($fma_track_ids);
    		//var_dump($fma_track_id[0]['foreign_id']);
 	}
 
-//use FMA song IDs to get FMA Track Title, Artist Name, Track URL (download), Artist Image, Source URL, License, 
+//loop thru FMA song ID array to FMA API for FMA Track Title, Artist Name, Track URL (download), Artist Image, Source URL, License, 
 //while ($start !== false &&  $start < strlen($fma_track_ids)) {
-	$arr = array();
-	$temp = explode("\r\n",$fma_track_ids);
-	foreach ($temp as $pair) {
-		list($key,$value) = explode('fma:track:',$pair);
-		$arr[$key]=str_replace("\"","",$value);
-	}
+//	$temp = explode("fma:track:",$fma_track_ids);
+//	var_dump($temp[0]);
+//	var_dump($temp[1]);
+//	foreach ($fma_track_ids as $pair) {
+//		list($key,$value) = explode('track:',$pair);
+		//$arr[$key]=str_replace("\"","",$value);
+//		$arr[] = $value;
+
+//	}
+
 	//var_dump($arr);
 
-foreach($arr as $fma_query) {
+foreach($fma_track_ids as $fma_query) {
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
 	$curl = curl_init();
                curl_setopt($curl, CURLOPT_URL, $fma_apiURL);
@@ -116,13 +122,16 @@ foreach($arr as $fma_query) {
 				$return_data=utf8_encode($return_data);
 				$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 				// now, process the JSON string 
+               //print_r($return_data);
                $data = json_decode($return_data, true);
-               print_r($data);
-    $artist_name = $data->list[0]->main->temp_min;
-	$track_title = $data->list[0]->main->temp_max;
-	$track_download_url = $data->list[0]->main->temp;
-	echo($artist_name." - ".$track_title." - ".$track_download_url);
+               //print_r($data);
+    $artist_name = $data['artist_name'];
+	$track_title = $data['track_title'];
+	$track_download_url = $data['track_url']."/download";
+	$arrfma[] = ($artist_name." - ".$track_title." - ".$track_download_url);
 }
+
+//print_r($arrfma);
 
 ?>
 
@@ -134,6 +143,7 @@ foreach($arr as $fma_query) {
 
   
   <link rel="stylesheet" href="css/foundation.css">
+	<link rel="stylesheet" type="text/css" href="css/jplayer.blue.monday.css" />
   
 
   <script src="js/vendor/custom.modernizr.js"></script>
@@ -141,6 +151,7 @@ foreach($arr as $fma_query) {
   <script src="js/jquery.jplayer.inspector.js"></script>
    <script src="js/jplayer.playlist.min.js"></script>
   <script src="js/popcorn.jplayer.js"></script>
+
 	</head>
 
 	<body>
