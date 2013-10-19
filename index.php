@@ -25,6 +25,7 @@ function analyzeFile($file_, $key_) {
 	curl_setopt($curl, CURLOPT_POSTFIELDS,array(
 	  'filetype' => $file_type_,
 	  'api_key' => $key_,
+	  'format'=> 'json',
 	  'track' => '@'.$file_
 	));
 //	curl_setopt($curl, CURLOPT_POSTFIELDS, "api_key=".$key_."&url=".$file_);
@@ -37,14 +38,15 @@ function analyzeFile($file_, $key_) {
 
 	  **/
 	$return_data = curl_exec($curl);
-    //var_dump($return_data);
-    $data = json_decode($return_data);
-    //echo($file_);
+    var_dump($return_data);
+    $data = json_decode($return_data, true);
+  
 
-	$tid = $data['response']['track']['id']."&bucket=audio_summary";
+	$tid = var_dump($data["response"]["track"]["id"])."&bucket=audio_summary";
 	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid;
 	echo($apiURL);
-/**
+
+/**	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=100&type=song-radio&bucket=id:fma&limit=true&bucket=tracks"
 	$curl = curl_init();
                curl_setopt($curl, CURLOPT_URL, $apiURL);
                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -64,11 +66,37 @@ function analyzeFile($file_, $key_) {
 	//print_r($tid);
 	//echo($tid);
               **/
+
+//seeding a playlist with variables:
+//http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=100&type=song-radio&bucket=id:fma&limit=true&bucket=tracks
+            
 }
 
 
-?>
+//take the uploaded song_id and make a playlist of FMA song ID's
+	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=MROQS3CCSCKZERMNL&song_id=SOJUJTO1393BE3380A&format=json&results=3&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
+	$curl = curl_init();
+               curl_setopt($curl, CURLOPT_URL, $apiURL);
+               curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+               //curl_setopt($curl, CURLOPT_HEADER, true);
+               $return_data = curl_exec($curl);
+               //var_dump($return_data);
+               //remove padding 
+				$return_data=utf8_encode($return_data);
+				$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
+				// now, process the JSON string 
+               $data = json_decode($return_data, true);
 
+               //print_r($data);
+   foreach($data["songs"] as $item){ 
+   		$fma_track_ids = $item["tracks"][0]['foreign_id'];
+   		var_dump($fma_track_ids);
+   		//var_dump($fma_track_id[0]['foreign_id']);
+	}
+
+//use FMA song IDs to get FMA Track Title, Artist Name, Track URL (download), Artist Image, Source URL, License, 
+
+?>
 
 <html>
 	<head>
