@@ -334,23 +334,18 @@ To play the media you will need to either update your browser to a recent versio
  				<li class="item">
 
 		 			<div class="large-12 columns panel">
+		 				<div class="large-3 columns">
 		 				<img src="http://cdn.7static.com/static/img/sleeveart/00/010/119/0001011998_200.jpg">
+		 				</div>
+		 				<div class="large-8 columns">
 		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
 						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
 						<a href="http://previews.7digital.com/clips/34/11123262.clip.mp3">Song URL<?php echo $_GET['link']; ?></a>
 						<a href="#" class="small button">Download</a></p>]
+						</div>
 		 			</div>
 	 			</li>
-	 				<li class="item">
-		 		
-		 			<div class="large-12 columns panel">
-		 				<img src="#">
-		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
-						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
-						<a href="#">Song URL<?php echo $_GET['link']; ?></a>
-						<a href="#" class="small button">Download URL</a></p>]
-		 			</div>
-	 			</li>
+	 				
 	 		</ul>	
  		</div>
  </div>
