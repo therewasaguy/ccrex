@@ -88,11 +88,13 @@ function analyzeFile($file_, $key_) {
 				$return_data=preg_replace('/.+?({.+}).+/','$1',$return_data); 
 				// now, process the JSON string 
                $data = json_decode($return_data, true);
-
-
+               
    foreach($data["songs"] as $item){ 
-   		$fma_track_ids[] = explode("fma:track:",$item["tracks"][0]['foreign_id']);
-   		var_dump($fma_track_ids);
+   		$fma_explode = $item["tracks"][0]['foreign_id'];
+   		$fma_track_ids = explode("fma:track:",$fma_explode);
+   		//json_decode($fma_track_ids);
+   		//print_r($fma_track_ids);
+   		//var_dump($fma_track_ids);
    		//var_dump($fma_track_id[0]['foreign_id']);
 	}
 
@@ -110,8 +112,17 @@ function analyzeFile($file_, $key_) {
 
 	//var_dump($arr);
 
+$x = 0;
+echo(count($fma_track_ids));
+
+//for($i = 0; $i<=arraylen())
+
 foreach($fma_track_ids as $fma_query) {
+//	$x = $x+10;
+//	print($x);
+//	print_r($fma_query);
 	$fma_apiURL="http://freemusicarchive.org/api/get/tracks.json?api_key=".$fmakey."&track_id=".$fma_query;
+	//echo($fma_apiURL);
 	$curl = curl_init();
                curl_setopt($curl, CURLOPT_URL, $fma_apiURL);
                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -128,10 +139,10 @@ foreach($fma_track_ids as $fma_query) {
     $artist_name = $data['artist_name'];
 	$track_title = $data['track_title'];
 	$track_download_url = $data['track_url']."/download";
-	$arrfma[] = ($artist_name." - ".$track_title." - ".$track_download_url);
+	array_push($arrfma, $artist_name." - ".$track_title." - ".$track_download_url);
 }
 
-//print_r($arrfma);
+print_r($arrfma);
 
 ?>
 
