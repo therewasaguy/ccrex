@@ -41,7 +41,7 @@ function analyzeFile($file_, $key_) {
     $data = json_decode($return_data);
     //echo($file_);
 
-	$tid = $data['track']['id']."&bucket=audio_summary";
+	$tid = $data['response']['track']['id']."&bucket=audio_summary";
 	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid;
 	echo($apiURL);
 /**
