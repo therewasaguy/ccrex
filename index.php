@@ -45,14 +45,15 @@ function analyzeFile($file_, $key_) {
    $tid = $data->track->id;
   
  	if($data->track->status == "pending") {
- 		echo("Please wait while The Echo Nest analyzes your file (reload page)");
+ 		echo("Please wait while The Echo Nest analyzes your file...");
+ 		sleep(5);
  		//analyzeFile($file_, $key_);
- 	} else
+ 	}
 
    if($tid !== null) {   //AJAX query to see if it's no longer returning "pending"
 	//$tid = var_dump($return_data["response"]["track"]["id"])."&bucket=audio_summary";
 	$apiURL= "http://developer.echonest.com/api/v4/track/profile?api_key=".$key_."&format=json&id=".$tid."&bucket=audio_summary";    //$tid;
-	echo($apiURL);
+	//echo($apiURL);
 	$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $apiURL);
 		//curl_setopt($curl, CURLOPT_POST, 1);
@@ -104,7 +105,6 @@ function makeFMAid($echo_track_id) {
 //take the uploaded song_id and make an array of FMA song ID's
 	$apiURL="http://developer.echonest.com/api/v4/playlist/static?api_key=".$echokey."&song_id=".$echo_track_id."&format=json&results=10&type=song-radio&bucket=id:fma&limit=true&bucket=tracks";
 	$curl = curl_init();
-				echo("hi");
                curl_setopt($curl, CURLOPT_URL, $apiURL);
                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                //curl_setopt($curl, CURLOPT_HEADER, true);
@@ -185,15 +185,11 @@ foreach($fma_track_ids as $fma_query) {
 	<!-- Introduction -->
 	<div class="row">
 		<div class="large-12 columns">
+			<img id="ccrex" src="img/ccrex_fetch_sm.png" width=170px>
 			<h1>CCRex</h1>
-<<<<<<< HEAD
 			<h3>Upload a song, we'll fetch Creative Commons music to match.</h3>
 			<h4>Powered by Free Music Archive and The Echo Nest</h4>
-=======
-			<h3>We fetch CC song recommendations that closely match any song you upload!</h3>
->>>>>>> ae6b9ba48a0339b700d4302bad00698acd7a8f6a
 			<hr />
-			<img id="ccrex" src="img/ccrex_fetch_sm.png">
 	</div>
 
 <!-- FILE UPLOAD STUFF -->
@@ -288,8 +284,8 @@ foreach($fma_track_ids as $fma_query) {
 				<input class="small button" type="file" name="bytes" />
 				<input type="hidden" name="form_submitted" value="true" />
 				<br />
-				<input class="small button" type="submit" name="submit" value="Upload Song" />
-				<div class="large-9 columns progress" style="width: 50%"><span class="meter"></span></div>
+				<input class="small button" type="submit" name="uploading" value="Upload Song" />
+				<!--<div class="large-9 columns progress" style="width: 50%"><span class="meter"></span></div>-->
 			</p>
 		</div>	
 		<div>
@@ -309,11 +305,13 @@ foreach($fma_track_ids as $fma_query) {
 ?>
 
 <!-- Results -->
-
+<?php 
+if (isset($_POST['form_submitted'])) {
+	?>
 <div class="row">
  		<div class="large-12 columns">
- 			<h3>CC Song Recommendations</h3>
- 			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
+ 			<!--<h3>CC Song Recommendations</h3>-->
+ 			<h4>Rex fetched these songs based on tempo, mode, timbre and more<h4>
 <!-- jPlayer  -->
 <div  id="jquery_jplayer_1" class="jp-jplayer large-8 columns"></div>
 <div id="jp_container_1" class="jp-audio">
@@ -350,7 +348,7 @@ foreach($fma_track_ids as $fma_query) {
         </div>
         <div class="jp-title">
             <ul>
-                <li>Cro Magnon Man</li>
+                <li></li>
             </ul>
         </div>
         <div class="jp-no-solution"> <span>Update Required</span>
@@ -376,7 +374,11 @@ To play the media you will need to either update your browser to a recent versio
 	 		</ul>	
  		</div>
  </div>
+<?php
+} else {
 
+}
+?>
 
 
 
