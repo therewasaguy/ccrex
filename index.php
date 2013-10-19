@@ -274,7 +274,7 @@ foreach($arr as $fma_query) {
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
 <!-- jPlayer -->
-<div align="center" id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div  id="jquery_jplayer_1" class="jp-jplayer large-8 columns"></div>
 <div id="jp_container_1" class="jp-audio">
     <div class="jp-type-single">
         <div class="jp-gui jp-interface">
@@ -286,10 +286,12 @@ foreach($arr as $fma_query) {
                 </li>
                 <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
                 </li>
-                <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+               <!-- <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
                 </li>
                 <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
-                </li>
+                </li> 
+                -->
+
                 <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
                 </li>
             </ul>
@@ -325,7 +327,7 @@ To play the media you will need to either update your browser to a recent versio
 		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
 						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
 						<a href="http://previews.7digital.com/clips/34/11123262.clip.mp3">Song URL<?php echo $_GET['link']; ?></a>
-						<a href="#">Download</a></p>]
+						<a href="#" class="small button">Download</a></p>]
 		 			</div>
 	 			</li>
 	 				<li class="item">
@@ -335,7 +337,7 @@ To play the media you will need to either update your browser to a recent versio
 		 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
 						<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
 						<a href="#">Song URL<?php echo $_GET['link']; ?></a>
-						<a href="#">Download URL</a></p>]
+						<a href="#" class="small button">Download URL</a></p>]
 		 			</div>
 	 			</li>
 	 		</ul>	
