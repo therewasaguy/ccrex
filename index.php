@@ -116,7 +116,7 @@ foreach($fma_track_ids as $fma_query) {
 	$license_image_file = $data['license_image_file'];
 	$track_download_url = $data['track_url']."/download";
 	$license_url = $data['license_url'];
-	array_push($fma_song_list, "<div class='song panel'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
+	array_push($fma_song_list, "<div class='song panel jp-play'><a href='".$artist_url."'><span class='artist_name'>".$artist_name."</a></span>  <span class='track_title'><em>".$track_title."</em></span>  <a class='small button' href='".$track_download_url."'>Download</a></span><audio controls><source src='".$track_download_url."' type='audio/mpeg'></audio> <span class='license'><a href='".$license_url."'><img src='".$license_image_file."' ></span></div>");
 }
 
 
@@ -268,21 +268,21 @@ foreach($fma_track_ids as $fma_query) {
  		<div class="large-12 columns">
  			<h3>CC Song Recommendations</h3>
  			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
-<!-- jPlayer 
+<!-- jPlayer  -->
 <div  id="jquery_jplayer_1" class="jp-jplayer large-8 columns"></div>
 <div id="jp_container_1" class="jp-audio">
     <div class="jp-type-single">
         <div class="jp-gui jp-interface">
             <ul class="jp-controls">
- -->
-                <!-- comment out any of the following <li>s to remove these buttons 
+
+                <!-- comment out any of the following <li>s to remove these buttons  -->
                 <li><a href="javascript:;" class="jp-play" tabindex="1">play</a>
                 </li>
                 <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
                 </li>
                 <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
                 </li>
- -->
+
                <!-- <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
                 </li>
                 <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
@@ -293,7 +293,7 @@ foreach($fma_track_ids as $fma_query) {
                 </li>
             </ul>
  -->
-            <!-- you can comment out any of the following <div>s too
+            <!-- you can comment out any of the following <div>s too -->
             <div class="jp-progress">
                 <div class="jp-seek-bar">
                     <div class="jp-play-bar"></div>
@@ -314,7 +314,7 @@ foreach($fma_track_ids as $fma_query) {
 To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.</div>
     </div>
 </div>
--->
+
 
 <!-- list -->
  			<ul id="playlist">

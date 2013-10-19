@@ -42,6 +42,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cb60b3', end
   position: relative;
   cursor: default; }
 
+/* .song class attributes. Trying to get button to play song */
+.song {
+  cursor: pointer;
+  
+}
+
 a:hover {
   cursor: pointer; }
 
