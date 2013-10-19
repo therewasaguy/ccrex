@@ -32,7 +32,7 @@ background: -ms-linear-gradient(top, #cb60b3 0%,#ad1283 50%,#de47ac 100%); /* IE
 background: linear-gradient(to bottom, #cb60b3 0%,#ad1283 50%,#de47ac 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cb60b3', endColorstr='#de47ac',GradientType=0 ); /* IE6-9 */
 /* end of background code */
-  color: #3a3a3a;
+  color: #fafafa;
   padding: 0;
   margin: 0;
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;

@@ -184,15 +184,15 @@ function analyzeFile($file_, $key_) {
 				<input class="small button" type="file" name="bytes" />
 				<input type="hidden" name="form_submitted" value="true" />
 				<br />
-				<input class="small button" type="submit" name="submit" value="upload .wav or .mp3" />
+				<input class="small button" type="submit" name="submit" value="Upload Song" />
 			</p>
 		</form>
 		</div>	
-		<div class="progress" style="width: 50%"><span class="meter"></span></div>
+		<div class="large-9 columns progress" style="width: 50%"><span class="meter"></span></div>
 	</div>
 		<div>
 	<form class="custom">
-  <label for="checkbox1">
+  <label>
     <input type="checkbox" id="commercialcheckbox" style="display: none;">
     <span class="custom checkbox"></span> Do you want to use this song commercially?
   </label>
@@ -211,13 +211,15 @@ function analyzeFile($file_, $key_) {
 
 <div class="row">
  		<div class="large-12 columns">
- 			<h3>Similar songs</h3>
+ 			<h3>CC Song Recommendations</h3>
+ 			<h4>We found the following similar songs based on a number of criteria including tempo, mode, timbre and more<h4>
  			<div class="large-2 columns panel">
  					<img src="#">
  			</div>
  			<div class="large-9 columns panel">
-		[		<p>Artist - Song name - License<br>
-				<a href="#">Song URL</a><br>
+ 				<input type="hidden" name="type" value="<?php echo $var; ?>" >
+		[		<p><? echo($Artist); ?>Artist <? echo($songname); ?> Song name<? echo($license); ?>License<br>
+				<a href="#">Song URL<?php echo $_GET['link']; ?></a>
 				<a href="#">Download URL</a></p>]
  			</div>
  		</div>
