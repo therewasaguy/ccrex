@@ -1,8 +1,7 @@
-
 <?PHP
 
-$echokey = 'MROQS3CCSCKZERMNL';
-$fmakey = 'FWYXBWBNHU1EZW2C';
+$echokey = '';
+$fmakey = '';
 
 $dir    = 'tempaudio';
 $ssh_dir = '/home/jasonsigal/jasonsigal.cc/ccrex/tempaudio';
